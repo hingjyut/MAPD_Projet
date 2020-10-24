@@ -1,9 +1,11 @@
-package Arc;
+package arc;
 
 import java.util.Map.Entry;
+
+import arc.Arc;
+
 import java.util.Vector;
 
-import Arc.Arc;
 import place.Place;
 import transition.Transition;
 
@@ -27,12 +29,15 @@ public class ArcIn extends Arc{
 		this.transition = trans;
 	}
 	
+	
+	/**
+	 * ArcIn is always drawable
+	 * 
+	 * @return true
+	 */
 	@Override
 	public boolean draw() {
 		// TODO Auto-generated method stub
-		if (this.getPlace().getTokens()<this.getValue()) {
-			return false;
-		}
 		return true;
 	}
 

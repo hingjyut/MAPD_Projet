@@ -1,15 +1,21 @@
-package Arc;
+package arc;
 import place.Place;
 import transition.Transition;
 
 public class Zero extends ArcOut{
 	
-	private int value = 0;
+	private int value;
 	
 	public Zero(Place place, Transition transition){
 		super(place,transition);
+		this.value = 0;
 	}
 	
+	/**
+	 * To determine if place's tokens is 0
+	 * 
+	 * @return if it is: true; else false
+	 */
 	@Override
 	public boolean draw() {
 		if (this.getPlace().getTokens()==0) {

@@ -1,9 +1,10 @@
-package PetriNet;
-import Arc.ArcIn;
-import Arc.ArcOut;
-import Arc.Cleaner;
-import Arc.Zero;
-import IPetriNet.IPetriNet;
+package petriNet;
+import arc.Arc;
+import arc.ArcIn;
+import arc.ArcOut;
+import arc.Cleaner;
+import arc.Zero;
+import petriNet_interface.IPetriNet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +12,14 @@ import java.util.Map;
 
 import javax.management.RuntimeErrorException;
 
-import Arc.Arc;
 import place.Place;
 import transition.Transition;
 
 public class PetriNet implements IPetriNet{
 	
+	/**
+	 * Stores all arcs in a map, key is place, value is a list of transitions
+	 */
 	private Map<Place, ArrayList<Transition>> arcs;
 	
 	public PetriNet() {

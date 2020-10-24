@@ -1,5 +1,5 @@
-package Arc;
-import Arc.Arc;
+package arc;
+import arc.Arc;
 import place.Place;
 import transition.Transition;
 
@@ -16,15 +16,11 @@ public class ArcOut extends Arc{
 		this.place = place;
 	}
 	
-	@Override
-	public void changeValue(int value) {
-		// TODO Auto-generated method stub
-		if (value<0) {
-			throw new ArithmeticException("Values can't be less than 0");
-		}
-		this.setValue(value);
-	}
-	
+	/**
+	 * To determine if this arc's value is less than place's tokens
+	 * 
+	 * @return if it is: true; else false
+	 */
 	@Override
 	public boolean draw() {
 		// TODO Auto-generated method stub

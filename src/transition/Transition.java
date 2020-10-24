@@ -3,10 +3,10 @@ package transition;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import Arc.ArcIn;
-import Arc.ArcOut;
-import Arc.Cleaner;
-import Arc.Zero;
+import arc.ArcIn;
+import arc.ArcOut;
+import arc.Cleaner;
+import arc.Zero;
 
 /**
  * @author hingjyutcheung

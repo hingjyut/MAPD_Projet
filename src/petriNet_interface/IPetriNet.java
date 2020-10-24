@@ -1,9 +1,9 @@
-package IPetriNet;
-import Arc.ArcIn;
-import Arc.ArcOut;
-import Arc.Cleaner;
-import Arc.Zero;
-import Arc.Arc;
+package petriNet_interface;
+import arc.Arc;
+import arc.ArcIn;
+import arc.ArcOut;
+import arc.Cleaner;
+import arc.Zero;
 import place.Place;
 import transition.Transition;
 

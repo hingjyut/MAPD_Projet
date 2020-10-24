@@ -1,8 +1,8 @@
 package tests;
-import Arc.ArcIn;
-import Arc.ArcOut;
-import Arc.Zero;
-import PetriNet.PetriNet;
+import arc.ArcIn;
+import arc.ArcOut;
+import arc.Zero;
+import petriNet.PetriNet;
 import place.Place;
 import transition.Transition;
 
@@ -25,8 +25,7 @@ public class TestMain {
 		ArcIn arcIn1 = petriNet.createArcIn(t1, p1);
 		Zero arcIn = petriNet.createZero(p2, t1);
 		System.out.println(arcIn.getValue());
-		System.out.println(arcIn1.toString());
-		
+		System.out.println(arcIn1.toString());	
 	}
 
 }
