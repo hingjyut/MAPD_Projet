@@ -23,7 +23,7 @@
 
 
 ### Utilisation : 
-Dans le dossier tools ouvrez un terminal.
+Dans le dossier **tools** ouvrez un terminal.
 
 Pour lancer une simulation executer la commande(il n'y a pas de code de tests actuellement) : 
 ```terminal
