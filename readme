@@ -5,10 +5,11 @@
 **********************************************************
 Le dossier  contient :
 
--> 3 repertoires :
+-> 4 repertoires :
 	- bin pour le stockage des .class
 	- docs pour le stockage de la documentation des fichiers, la javadoc
 	- src pour les fichiers source du projet en .java
+	-tools pour les differents scripts 
 
 -> 5 scripts :
 	- cleanAll pour effacer la javadoc et les .class contenus dans les repertoires bin/ et docs/
@@ -19,7 +20,7 @@ Le dossier  contient :
 
 
 Utilisation : 
-Dans le même emplacement que ce fichier readme ouvrez un terminal.
+Dans le dossier tools ouvrez un terminal.
 
 Pour lancer une simulation executer la commande : simulation
 Pour lancer les tests de code (il n'y a pas de code de tests actuellement) executer la commande : runTests
