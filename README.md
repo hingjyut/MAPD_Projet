@@ -24,29 +24,29 @@ Le dossier  contient :
 ### Utilisation : 
 Dans le dossier tools ouvrez un terminal.
 
-Pour lancer une simulation executer la commande : 
+Pour lancer une simulation executer la commande(il n'y a pas de code de tests actuellement) : 
 ```terminal
-simulation
+sh simulation
 ```
 Pour lancer les tests de code (il n'y a pas de code de tests actuellement) executer la commande : 
 ```terminal
-runTests
+sh runTests
 ```
 Pour compiler le code excuter la commande : 
 ```terminal
-compile
+sh compile
 ```
 Pour generer la javadoc executer la commande : 
 ```terminal
-genDoc
+sh genDoc
 ```
 
 Pour effacer les fichier .class et javadoc executer la commande : 
 ```terminal
-cleanAll
+sh cleanAll
 ```
 
 Pour compresser ce dossier excuter la commande : 
 ```terminal
-genDeliverable
+sh genDeliverable
 ```
