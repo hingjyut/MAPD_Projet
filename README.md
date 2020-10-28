@@ -1,19 +1,19 @@
 # MAPD_Projet
 
 **********************************************************
-*MAPD - Réseau de pétri				 *
+* MAPD - Réseau de pétri				 *
 * V0 du 28/10.20					 *
 * Authors : X.ZHANG, R.VOYER	 *
 **********************************************************
 Le dossier  contient :
 
--> 4 repertoires :
+### -> 4 repertoires :
 	- bin pour le stockage des .class
 	- docs pour le stockage de la documentation des fichiers, la javadoc
 	- src pour les fichiers source du projet en .java
 	-tools pour les differents scripts 
 
--> 5 scripts :
+### -> 5 scripts :
 	- cleanAll pour effacer la javadoc et les .class contenus dans les repertoires bin/ et docs/
 	- compile pour compiler les fichiers .java contenu dans src/ 
 	- genDoc pour génerer la javadoc des fichiers .java
@@ -21,12 +21,32 @@ Le dossier  contient :
 	- genDeliverable pour le fichier .tar.gz contenant tous les fichiers et scripts vu ci-dessus
 
 
-Utilisation : 
+### Utilisation : 
 Dans le dossier tools ouvrez un terminal.
 
-Pour lancer une simulation executer la commande : simulation
-Pour lancer les tests de code (il n'y a pas de code de tests actuellement) executer la commande : runTests
-Pour compiler le code excuter la commande : compile
-Pour generer la javadoc executer la commande : genDoc
-Pour effacer les fichier .class et javadoc executer la commande : cleanAll
-Pour compresser ce dossier excuter la commande : genDeliverable
+Pour lancer une simulation executer la commande : 
+```terminal
+simulation
+```
+Pour lancer les tests de code (il n'y a pas de code de tests actuellement) executer la commande : 
+```terminal
+runTests
+```
+Pour compiler le code excuter la commande : 
+```terminal
+compile
+```
+Pour generer la javadoc executer la commande : 
+```terminal
+genDoc
+```
+
+Pour effacer les fichier .class et javadoc executer la commande : 
+```terminal
+cleanAll
+```
+
+Pour compresser ce dossier excuter la commande : 
+```terminal
+genDeliverable
+```
