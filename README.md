@@ -11,7 +11,7 @@ Le dossier  contient :
 	- bin pour le stockage des .class
 	- docs pour le stockage de la documentation des fichiers, la javadoc
 	- src pour les fichiers source du projet en .java
-	-tools pour les differents scripts 
+	- tools pour les differents scripts 
 
 ### -> 5 scripts :
 	- cleanAll pour effacer la javadoc et les .class contenus dans les repertoires bin/ et docs/
