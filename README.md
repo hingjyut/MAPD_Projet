@@ -1,9 +1,9 @@
 # MAPD_Projet
 
 **********************************************************
-* MAPD - Réseau de pétri				 *
-* V0 du 28/10.20					 *
-* Authors : X.ZHANG, R.VOYER	 			 *
+* MAPD - Réseau de pétri				 
+* V0 du 28/10.20					 
+* Authors : X.ZHANG, R.VOYER	 			 
 **********************************************************
 
 ##Le dossier  contient :
