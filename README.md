@@ -6,7 +6,7 @@
 * Authors : X.ZHANG, R.VOYER	 			 
 **********************************************************
 
-##Le dossier  contient :
+## Le dossier  contient :
 
 ### -> 4 repertoires :
 	- bin pour le stockage des .class
