@@ -3,9 +3,10 @@
 **********************************************************
 * MAPD - Réseau de pétri				 *
 * V0 du 28/10.20					 *
-* Authors : X.ZHANG, R.VOYER	 *
+* Authors : X.ZHANG, R.VOYER	 			 *
 **********************************************************
-Le dossier  contient :
+
+##Le dossier  contient :
 
 ### -> 4 repertoires :
 	- bin pour le stockage des .class
