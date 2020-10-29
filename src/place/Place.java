@@ -1,5 +1,6 @@
 package place;
 
+
 public class Place {
 	
 	private int tokens;
@@ -16,10 +17,18 @@ public class Place {
 		this.tokens = tokens;
 	}
 
+	/**
+	 * users can add place's tokens
+	 * @param num
+	 */
 	public void addTokens(int num) {
 		this.setTokens(this.getTokens()+num);
 	}
 	
+	/**
+	 * users can sub place's tokens 
+	 * @param num
+	 */
 	public void subTokens(int num) {
 		// check if there is enough tokens to sub
 		if (this.getTokens()<num) {
@@ -29,6 +38,9 @@ public class Place {
 		this.setTokens(this.getTokens()-num);
 	}
 	
+	/**
+	 * users can delete all tokens in this place
+	 */
 	public void deleteTokens() {
 		this.setTokens(0);
 	}

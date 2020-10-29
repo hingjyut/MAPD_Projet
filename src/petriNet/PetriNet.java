@@ -15,6 +15,7 @@ import javax.management.RuntimeErrorException;
 import place.Place;
 import transition.Transition;
 
+
 public class PetriNet implements IPetriNet{
 	
 	/**
@@ -26,14 +27,25 @@ public class PetriNet implements IPetriNet{
 		// TODO Auto-generated constructor stub
 		this.arcs = new HashMap<Place, ArrayList<Transition>>();
 	}
-
+	
+	/**
+	 * create a new place
+	 * 
+	 * @param tokens
+	 * @return a new place
+	 */
 	@Override
 	public Place createPlace(int tokens) {
 		// TODO Auto-generated method stub
 		Place place = new Place(tokens);
 		return place;
 	}
-
+	
+	/**
+	 * create a new transition
+	 * 
+	 * @return a new transition
+	 */
 	@Override
 	public Transition createTransition() {
 		// TODO Auto-generated method stub
@@ -41,6 +53,13 @@ public class PetriNet implements IPetriNet{
 		return transition;
 	}
 	
+	
+	/**
+	 * 
+	 * @param transition 	arc's transition 
+	 * @param place			arc's place
+	 * 
+	 */
 	public void addArcToList(Transition transition, Place place) {
 		// if the place is in the arcs list, we add the transition
 		if (this.getArcs().containsKey(place)) {
@@ -53,6 +72,13 @@ public class PetriNet implements IPetriNet{
 		}
 	}
 	
+	/**
+	 * check if there is conflict in current arc, such as this arc links to the same transition twice 
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @return  if there is conflict, return true, else false
+	 */
 	public boolean conflict(Transition transition, Place place) {
 		// if place exists in arcs
 		if (this.getArcs().containsKey(place)) {
@@ -69,7 +95,12 @@ public class PetriNet implements IPetriNet{
 		}
 	}
 
-	
+	/**
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @return  a new ArcIn
+	 */
 	@Override
 	public ArcIn createArcIn(Transition transition, Place place){
 		// TODO Auto-generated method stub
@@ -84,6 +115,14 @@ public class PetriNet implements IPetriNet{
 		}
 	}
 	
+
+	/**
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @param value			arc's value
+	 * @return  a new ArcIn
+	 */
 	@Override
 	public ArcIn createArcInWithValue(Transition transition, Place place, int value) {
 		// TODO Auto-generated method stub
@@ -94,7 +133,14 @@ public class PetriNet implements IPetriNet{
 		transition.addArcIn(arcIn);
 		return arcIn;
 	}
-
+	
+	/**
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @param value			arc's value
+	 * @return  a new ArcOut
+	 */
 	@Override
 	public ArcOut createArcOut(Place place, Transition transition) {
 		// if there is no conflict, we add new arc
@@ -109,6 +155,14 @@ public class PetriNet implements IPetriNet{
 		}
 	}
 
+	
+	/**
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @param value			arc's value
+	 * @return  a new ArcOut
+	 */
 	@Override
 	public ArcOut createArcOutWithValue(Place place, Transition transition, int value) {
 		// TODO Auto-generated method stub
@@ -117,7 +171,13 @@ public class PetriNet implements IPetriNet{
 		transition.addArcOut(arcOut);
 		return arcOut;
 	}
-
+	
+	/**
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @return  a new arc with type of Zero
+	 */
 	@Override
 	public Zero createZero(Place place, Transition transition) {
 		// TODO Auto-generated method stub
@@ -134,7 +194,13 @@ public class PetriNet implements IPetriNet{
 			return arcOut;
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param transition 	arc's transition
+	 * @param place			arc's place
+	 * @return  a new arc with type of Cleaner
+	 */
 	@Override
 	public Cleaner createCleaner(Place place, Transition transition) {
 		// TODO Auto-generated method stub

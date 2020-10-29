@@ -7,8 +7,13 @@ import arc.Zero;
 import place.Place;
 import transition.Transition;
 
+/**
+ * 
+ * PetriNet interface
+ *
+ */
 public interface IPetriNet {
-	
+
 	public Place createPlace(int tokens);
 	public Transition createTransition();
 	public ArcIn createArcIn(Transition transition, Place place);

@@ -8,10 +8,6 @@ import arc.ArcOut;
 import arc.Cleaner;
 import arc.Zero;
 
-/**
- * @author hingjyutcheung
- *
- */
 public class Transition {
 	
 	private ArrayList<ArcIn> arcIns;
