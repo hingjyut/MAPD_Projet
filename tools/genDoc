@@ -1,4 +1,4 @@
 #!/bin/bash
 
-javadoc -d ../docs -sourcepath ../src ../src/*/*.java
-javadoc -d ../docs -sourcepath ../src ../src/*.java
+javadoc -d ../docs -sourcepath ../src/mapd ../src/mapd/*/*.java
+#javadoc -d ../docs -sourcepath ../src ../src/*.java
