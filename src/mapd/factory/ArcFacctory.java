@@ -124,7 +124,7 @@ public class ArcFacctory implements IArcFactory {
 	public void setArcs(Map<Place, ArrayList<Transition>> arcs) {
 		this.arcs = arcs;
 	}
-
+	
 	@Override
 	public void deleteArc(Place place, Transition transition) {
 		this.arcs.get(place).remove(transition);

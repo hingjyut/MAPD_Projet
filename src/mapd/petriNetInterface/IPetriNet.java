@@ -13,27 +13,27 @@ import mapd.transition.Transition;
  *
  */
 public interface IPetriNet {
-
-	public Place createPlace(int tokens);
 	
-	public Transition createTransition();
+	public int createPlace(int tokens);
 	
-	public ArcIn createArcIn(Transition transition, Place place);
+	public int createTransition();
 	
-	public ArcIn createArcInWithValue(Transition transition, Place place, int value);
+	public int createArcIn(int transitionId, int placeId);
 	
-	public ArcOut createArcOut(Place place, Transition transition) ;
+	public int createArcInWithValue(int transitionId, int placeId, int value);
 	
-	public ArcOut createArcOutWithValue(Place place, Transition transition, int value);
+	public int createArcOut(int placeId, int transitionId) ;
 	
-	public Zero createZero(Place place, Transition transition);
+	public int createArcOutWithValue(int placeId, int transitionId, int value);
 	
-	public Cleaner createCleaner(Place place, Transition transition);
+	public int createZero(int placeId, int transitionId);
 	
-	public void deletePlace(Place place);
+	public int createCleaner(int placeId, int transitionId);
 	
-	public void deleteTransition(Transition transition);
+	public void deletePlace(int placeId);
 	
-	public void deleteArc(Arc arc);
+	public void deleteTransition(int transitionId);
+	
+	public void deleteArc(int arcId);
 
 }

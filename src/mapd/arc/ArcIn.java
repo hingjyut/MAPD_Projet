@@ -40,10 +40,6 @@ public class ArcIn implements Arc{
 		return true;
 	}
 
-	public int getArcId() {
-		return arcId;
-	}
-
 	public int getValue() {
 		return this.value;
 	}

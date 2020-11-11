@@ -55,11 +55,11 @@ public class PetriNet implements IPetriNet{
 	 * @return a new place
 	 */
 	@Override
-	public Place createPlace(int tokens) {
+	public int createPlace(int tokens) {
 		Place place = new Place(this.placeId, tokens);
 		this.places.put(this.placeId, new Place(this.placeId, tokens));
 		this.placeId++;
-		return place;
+		return place.getId();
 	}
 	
 	/**
@@ -67,14 +67,13 @@ public class PetriNet implements IPetriNet{
 	 * @param place
 	 */
 	@Override
-	public void deletePlace(Place place) {
-		Map<Place, ArrayList<Transition>> factoryArcs = this.arcFacctory.getArcs();
+	public void deletePlace(int placeId) {
+		Place place = this.places.get(placeId);
 		// delete place in factory
-		if (factoryArcs.containsKey(place)) {
-			factoryArcs.remove(place);
-			this.arcFacctory.setArcs(factoryArcs);
+		if (this.arcFacctory.getArcs().containsKey(place)) {
+			this.arcFacctory.getArcs().remove(place);
 		}
-		// delete arc in for all
+		// if we delete a place, we need to delete all arcs which link to this place
 		for(Arc arc: place.getArcs()) {
 			deleteArc(arc.getId());
 		}
@@ -88,24 +87,26 @@ public class PetriNet implements IPetriNet{
 	 * @return a new transition
 	 */
 	@Override
-	public Transition createTransition() {
+	public int createTransition() {
 		Transition transition = new Transition(this.transitionId);
 		this.transitions.put(transition.getId(), transition);
 		this.transitionId++;
-		return transition;
+		return transition.getId();
 	}
 	
 	/**
 	 *  User can delete a transition by calling this function
 	 * @param transition : to be deleted transition
 	 */
-	public void deleteTransition(Transition transition) {
+	@Override
+	public void deleteTransition(int transitionId) {
 		
 		/**
 		 * if a transition is going to be deleted, all arcs between 
 		 * this transition and places which linked to this transition 
 		 * will need to be deleted too
 		 */
+		Transition transition = this.transitions.get(transitionId);
 		for(Integer arcId: transition.getArcIns().keySet()) {
 			deleteArc(arcId);
 		}
@@ -122,34 +123,19 @@ public class PetriNet implements IPetriNet{
 	 * It serves for this class only
 	 * @param arcId
 	 */
-	private void deleteArc(int arcId) {
+	@Override
+	public void deleteArc(int arcId) {
 		Arc arc = this.arcs.get(arcId);
 		// delete arc in this.arcs
 		this.arcs.remove(arcId);
 		// delete arc in factory
-		this.deleteFactoryArc(arc);
+		this.arcFacctory.deleteArc(arc.getPlace(), arc.getTransition());
 		// delete this arc in place
 		this.places.get(arc.getPlace().getId()).deletArc(arc);
 		// delete this arc here
 		this.arcs.remove(arcId);
 	}
 	
-	/**
-	 * User can delete an arc by calling this function
-	 * @param arc	: to be deleted arc
-	 */
-	@Override
-	public void deleteArc(Arc arc) {
-		// delete arc in this.arcs
-		this.arcs.remove(arc.getId());
-		// delete arc in factory
-		this.deleteFactoryArc(arc);
-		// delete this arc in place
-		this.places.get(arc.getPlace().getId()).deletArc(arc);
-		// delete this arc here
-		this.arcs.remove(arc.getId());
-	}
-
 	/**
 	 * User can create an arc by calling this function, the following 
 	 * createArc*() work similarly
@@ -157,19 +143,19 @@ public class PetriNet implements IPetriNet{
 	 * @param place			arc's place
 	 * @return  a new ArcIn
 	 */
-//	@Override
-	public ArcIn createArcIn(Transition transition, Place place){
+	@Override
+	public int createArcIn(int transitionId, int placeId){
 		// if there is no conflict, we add new arc
 		try {
-			ArcIn arcIn = (ArcIn) arcFacctory.createArc("arcin", transition, place);
-			arcs.put(arcIn.getArcId(), arcIn);
-			return arcIn;
+			ArcIn arcIn = (ArcIn) arcFacctory.createArc("arcin", this.transitions.get(transitionId), this.places.get(placeId));
+			arcs.put(arcIn.getId(), arcIn);
+			return arcIn.getId();
 		} catch (NoThisTypeArcException e) {
 			System.err.println(e.toString());
 		}catch (ArcExistedException e) {
 			System.err.println(e.toString());
 		}
-		return null;
+		return 0;
 	}
 	
 
@@ -181,13 +167,12 @@ public class PetriNet implements IPetriNet{
 	 * @return  a new ArcIn
 	 */
 	@Override
-	public ArcIn createArcInWithValue(Transition transition, Place place, int value) {
+	public int createArcInWithValue(int transitionId, int placeId, int value) {
 		// create a new arcIn
-		ArcIn arcIn = createArcIn(transition, place);
+		int arcInId = createArcIn(transitionId, placeId);
 		// change its value
-		arcIn.changeValue(value);
-		arcs.put(arcIn.getArcId(), arcIn);
-		return arcIn;
+		this.arcs.get(arcInId).changeValue(value);
+		return arcInId;
 	}
 	
 	/**
@@ -199,19 +184,19 @@ public class PetriNet implements IPetriNet{
 	 * @throws ArcExistedException 
 	 */
 	@Override
-	public ArcOut createArcOut(Place place, Transition transition) {
+	public int createArcOut(int placeId, int transitionId) {
 		// if there is no conflict, we add new arc
 		try {
-			ArcOut arcOut = (ArcOut) arcFacctory.createArc("arcout", transition, place);
+			ArcOut arcOut = (ArcOut) arcFacctory.createArc("arcout", this.transitions.get(transitionId), this.places.get(placeId));
 			arcs.put(arcOut.getId(), arcOut);
-			return arcOut;
+			return arcOut.getId();
 		} catch (ArcExistedException e) {
 			System.err.println(e.toString());
 		}catch (NoThisTypeArcException e) {
 			System.err.println(e.toString());
 		}
 		
-		return null;
+		return 0;
 	}
 
 	
@@ -224,11 +209,10 @@ public class PetriNet implements IPetriNet{
 	 * @throws ArcExistedException 
 	 */
 	@Override
-	public ArcOut createArcOutWithValue(Place place, Transition transition, int value) {
-		ArcOut arcOut = createArcOut(place, transition);
-		arcOut.changeValue(value);
-		arcs.put(arcOut.getId(), arcOut);
-		return arcOut;
+	public int createArcOutWithValue(int placeId, int transitionId, int value) {
+		int arcOutId = createArcOut(placeId, transitionId);
+		this.arcs.get(arcOutId).changeValue(value);
+		return arcOutId;
 	}
 	
 	/**
@@ -240,19 +224,20 @@ public class PetriNet implements IPetriNet{
 	 * @throws ArcExistedException 
 	 */
 	@Override
-	public Zero createZero(Place place, Transition transition) {
+	public int createZero(int placeId, int transitionId) {
+		Place place = this.places.get(placeId);
 		if (place.getTokens()!=0) {
 			throw new RuntimeErrorException(null,"Place's tokens are more than zero");
 		}
 		try {
-			Zero zero = (Zero) arcFacctory.createArc("zero", transition, place);
+			Zero zero = (Zero) arcFacctory.createArc("zero", this.transitions.get(transitionId), place);
 			arcs.put(zero.getId(), zero);
-			return zero;
+			return zero.getId();
 		} catch (ArcExistedException | NoThisTypeArcException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.toString());
 		}
-		return null;
+		return 0;
 	}
 	
 	/**
@@ -262,30 +247,36 @@ public class PetriNet implements IPetriNet{
 	 * @return  a new arc with type of Cleaner
 	 */
 	@Override
-	public Cleaner createCleaner(Place place, Transition transition) {
+	public int createCleaner(int placeId, int transitionId) {
 		try {
+			Transition transition = this.transitions.get(transitionId);
+			Place place = this.places.get(placeId);
 			Cleaner cleaner = (Cleaner) arcFacctory.createArc("cleaner", transition, place);
 			cleaner.changeValue(place.getTokens());
 			arcs.put(cleaner.getId(), cleaner);
-			return cleaner;
+			return cleaner.getId();
 		} catch (ArcExistedException | NoThisTypeArcException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.toString());
 		}
-		return null;
+		return 0;
 	}
-	
-	/**
-	 * Delete arcs in arcFactory
-	 * @param arc
-	 */
-	public void deleteFactoryArc(Arc arc) {
-		this.arcFacctory.deleteArc(arc.getPlace(), arc.getTransition());
-	}
-	
 	
 	public ArcFacctory getArcFactory() {
 		return this.arcFacctory;
 	}
+
+	public Map<Integer, Place> getPlaces() {
+		return places;
+	}
+
+	public Map<Integer, Transition> getTransitions() {
+		return transitions;
+	}
+
+	public Map<Integer, Arc> getArcs() {
+		return arcs;
+	}
+
 
 }

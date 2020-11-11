@@ -1,35 +1,30 @@
 package mapd.tests;
-import mapd.arc.ArcIn;
-import mapd.arc.ArcOut;
-import mapd.arc.Zero;
 import mapd.petriNet.PetriNet;
 import mapd.petriNet.PetriNetSingleton;
-import mapd.place.Place;
-import mapd.transition.Transition;
 
 public class TestMain {
 	public static void main(String[] args) {
 		
-//		PetriNetSingleton petriNetSingleton = new PetriNetSingleton();
+		PetriNet petriNet = PetriNetSingleton.getSingleton();
 		
-		PetriNet petriNet = new PetriNetSingleton().getSingleton();
+		int p1 = petriNet.createPlace(3);
+		System.out.println(petriNet.getPlaces().get(p1).toString());
 		
-		Place p1 = petriNet.createPlace(3);
-		System.out.println(p1.toString());
+		int p2= petriNet.createPlace(0);
+		System.out.println(petriNet.getPlaces().get(p2).toString());
 		
-		Place p2= petriNet.createPlace(0);
-		System.out.println(p2.toString());
+		int t1 = petriNet.createTransition();
+		int t2 = petriNet.createTransition();
 		
-		Transition t1 = petriNet.createTransition();
-		Transition t2 = petriNet.createTransition();
+		int arcIn1 = petriNet.createArcIn(t1, p1);
+		int arcIn2 = petriNet.createZero(p2, t2);
 		
-		System.out.println(t1.toString());
-		System.out.println(t2.toString());
-		
-		ArcIn arcIn1 = petriNet.createArcIn(t1, p1);
-		Zero arcIn = petriNet.createZero(p2, t1);
-		System.out.println(arcIn.getValue());
-		System.out.println(arcIn1.toString());	
+		System.out.println(petriNet.getArcs().get(arcIn1).toString());
+		System.out.println(petriNet.getArcs().get(arcIn2).toString());
+		System.out.println(petriNet.getArcs());
+		petriNet.deleteArc(arcIn1);
+		System.out.println("after delete arc");
+		System.out.println(petriNet.getArcs().toString());
 	
 	}
 
