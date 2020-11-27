@@ -27,5 +27,6 @@ public interface Arc {
 	
 	public int getValue();
 	
+	public boolean isArcIn();
 	
 }

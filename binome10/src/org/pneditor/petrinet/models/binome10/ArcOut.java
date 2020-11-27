@@ -69,6 +69,11 @@ public class ArcOut implements Arc{
 				+ ", value=" + this.getValue();
 				
 	}
+	
+	@Override
+	public boolean isArcIn() {
+		return false;
+	}
 
 	
 	

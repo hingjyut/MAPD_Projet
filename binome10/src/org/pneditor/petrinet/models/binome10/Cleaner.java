@@ -24,5 +24,15 @@ public class Cleaner extends ArcOut{
 		}
 		return true;
 	}	
+	
+	@Override
+	public String toString() {
+		return "Cleaner: " + this.id 
+				+ ", TransitionId: "+this.getTransition().getId()
+				+ ", PlaceId: "+ this.getPlace().getId()
+				+ ", value=" + this.getValue();
+				
+	}
+
 
 }

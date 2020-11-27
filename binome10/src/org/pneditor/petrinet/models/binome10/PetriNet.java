@@ -66,7 +66,7 @@ public class PetriNet implements IPetriNet{
 		// add placeId
 		this.id++;
 		// return placeId
-		System.out.println("create a new place with id: "+place.getId());
+		System.out.println("Create a new place which id = "+place.getId());
 		return place.getId();
 	}
 	
@@ -80,6 +80,7 @@ public class PetriNet implements IPetriNet{
 	public int createPlace(int tokens) {
 		int placeId = this.createPlace();
 		this.places.get(placeId).setTokens(tokens);
+		System.out.println("create a new place which id = "+placeId);
 		return placeId;
 	}
 	
@@ -98,7 +99,9 @@ public class PetriNet implements IPetriNet{
 		for(Arc arc: place.getArcs()) {
 			deleteArc(arc.getId());
 		}
-		this.places.remove(place.getId());
+		this.places.remove(placeId);
+		System.out.println("Deleted a place which id = "+placeId);
+		
 	}
 	
 	/**
@@ -108,10 +111,9 @@ public class PetriNet implements IPetriNet{
 	 */
 	@Override
 	public int createTransition() {
-//		Transition transition = new Transition(this.transitionId);
 		Transition transition = new Transition(this.id);
 		this.transitions.put(transition.getId(), transition);
-//		this.transitionId++;
+		System.out.println("Created a new transition which id = "+transition.getId());
 		this.id++;
 		return transition.getId();
 	}
@@ -138,7 +140,8 @@ public class PetriNet implements IPetriNet{
 		}
 		
 		// delete this transition
-		this.transitions.remove(transition.getId());
+		this.transitions.remove(transitionId);
+		System.out.println("Deleted a transition with id = "+transitionId);
 	}
 	
 	/**
@@ -164,6 +167,7 @@ public class PetriNet implements IPetriNet{
 				ArcIn arc = new ArcIn(this.arcId, this.transitions.get(transitionId), this.places.get(placeId));
 				addArcFourSteps(arc, transitionId, placeId);
 				this.arcId++;
+				System.out.println("Created a new arc: "+arc.toString());
 				return arc.getId();
 			}
 		} catch (ArcExistedException e) {
@@ -189,8 +193,6 @@ public class PetriNet implements IPetriNet{
 	}
 	
 	public void addArcFourSteps(Arc arc, int transitionId, int placeId) {
-		System.out.println("transition id: "+transitionId);
-		System.out.println("place id: "+placeId);
 		// 1. add this arc to place
 		this.places.get(placeId).addArc(arc);
 		// 2. add this arc to transition
@@ -246,6 +248,7 @@ public class PetriNet implements IPetriNet{
 				ArcOut arcOut = new ArcOut(this.arcId, this.places.get(placeId), this.transitions.get(transitionId));
 				addArcFourSteps(arcOut, transitionId, placeId);
 				this.arcId++;
+				System.out.println("Created a new arc: "+arcOut.toString());
 				return arcOut.getId();
 			}
 		} catch (ArcExistedException e) {
@@ -268,6 +271,7 @@ public class PetriNet implements IPetriNet{
 	public int createArcOutWithValue(int placeId, int transitionId, int value) {
 		int arcOutId = createArcOut(placeId, transitionId);
 		this.arcs.get(arcOutId).changeValue(value);
+		System.out.println("Created a new arc: "+this.arcs.get(arcOutId).toString());
 		return arcOutId;
 	}
 	
@@ -287,11 +291,10 @@ public class PetriNet implements IPetriNet{
 		}
 		try {
 			if (!conflict(transitionId, placeId)) {
-//				Zero zero = new Zero(this.arcId, this.places.get(placeId), this.transitions.get(transitionId));
 				Zero zero = new Zero(this.arcId, this.places.get(placeId), this.transitions.get(transitionId));
 				addArcFourSteps(zero, transitionId, placeId);
-//				this.arcId++;
 				this.arcId++;
+				System.out.println("Created a new arc: "+zero.toString());
 				return zero.getId();
 			}
 		} catch (ArcExistedException e) {
@@ -310,12 +313,11 @@ public class PetriNet implements IPetriNet{
 	public int createCleaner(int placeId, int transitionId) {
 		try {
 			if (!conflict(transitionId, placeId)) {
-//				Cleaner cleaner = new Cleaner(this.arcId, this.places.get(placeId), this.transitions.get(transitionId));
 				Cleaner cleaner = new Cleaner(this.arcId, this.places.get(placeId), this.transitions.get(transitionId));
 				cleaner.changeValue(this.places.get(placeId).getTokens());
 				addArcFourSteps(cleaner, transitionId, placeId);
 				this.arcId++;
-				
+				System.out.println("Created a new arc: "+cleaner.toString());
 				return cleaner.getId();
 			}
 		} catch (ArcExistedException e) {
@@ -326,9 +328,16 @@ public class PetriNet implements IPetriNet{
 	
 	@Override
 	public void deleteArc(int sourceId, int destId) {
+		
 		for(Integer key : this.arcs.keySet()) {
+			System.out.println("arc key value:"+key);
 			if (this.arcs.get(key).getPlace().getId()==sourceId&&this.arcs.get(key).getTransition().getId()==destId) {
 				this.deleteArc(key);
+				System.out.println("Deleted an arcout whose id = "+key);
+			}
+			if (this.arcs.get(key).getPlace().getId()==destId&&this.arcs.get(key).getTransition().getId()==sourceId) {
+				this.deleteArc(key);
+				System.out.println("Deleted an arcin whose id = "+key);
 			}
 		}	
 	}

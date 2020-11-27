@@ -67,5 +67,11 @@ public class ArcIn implements Arc{
 				+ ", value=" + this.getValue();
 				
 	}
+
+	@Override
+	public boolean isArcIn() {
+		
+		return true;
+	}
 	
 }

@@ -67,6 +67,7 @@ public class Transition {
 	public boolean nextStep() {
 		// if all arcs are good, we start to fire this transition
 		if (checkArcs()) {
+			System.out.println("there is no conflict, let's fire all arcs");
 			// No need to verify arcIn, we can add tokens from transition to Place as we want
 			for(Integer key: arcIns.keySet()) {
 				Arc arc = arcIns.get(key);
@@ -76,6 +77,7 @@ public class Transition {
 				Arc arc = arcIns.get(key);
 				arc.getPlace().subTokens(arc.getValue());
 			}
+			System.out.println("arcs are fired, we can go to next run");
 			return true;
 		}
 		return false;
@@ -123,6 +125,11 @@ public class Transition {
 	
 	public String getName() {
 		return this.name;
+	}
+
+	@Override
+	public String toString() {
+		return "Transition name : " + this.name + ", id = "+this.id;
 	}
 
 	

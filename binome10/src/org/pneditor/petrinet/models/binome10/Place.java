@@ -95,7 +95,7 @@ public class Place {
 
 	@Override
 	public String toString() {
-		return "Place [tokens=" + tokens + "]";
+		return "Place name = "+ this.name +", tokens = " + tokens;
 	}
 	
 	public Place getPlace() {
@@ -111,6 +111,7 @@ public class Place {
 	}
 
 	public void setTokens(int tokens) {
+		System.out.println("tokens are set to "+tokens);
 		this.tokens = tokens;
 	}
 	
@@ -121,6 +122,7 @@ public class Place {
 	public String getName() {
 		return this.name;
 	}
+	
 	
 	
 }

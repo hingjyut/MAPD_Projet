@@ -41,11 +41,15 @@ public class PetriNetAdapter extends PetriNetInterface {
 		if (!source.isPlace() && destination.isPlace()) {
 			int arcInId = petriNet.createArcIn(source.getId(), destination.getId());
 			Arc arcIn = petriNet.getArcs().get(arcInId);
-			return new ArcInAdapter(arcIn);
+			ArcAdapter arcAdapter = new ArcAdapter(arcIn);
+			arcAdapter.setRegular(true);
+			return arcAdapter;
 		}else if (source.isPlace() && !destination.isPlace()) {
 			int arcOutId = petriNet.createArcOut(source.getId(), destination.getId());
 			Arc arcOut = petriNet.getArcs().get(arcOutId);
-			return new ArcOutAdapter(arcOut);
+			ArcAdapter adapter = new ArcAdapter(arcOut);
+			adapter.setRegular(true);
+			return adapter;
 		}
 		return null;
 	}
@@ -55,7 +59,9 @@ public class PetriNetAdapter extends PetriNetInterface {
 			throws UnimplementedCaseException {
 		int arcId = petriNet.createZero(place.getId(), transition.getId());
 		Zero zero = (Zero) petriNet.getArcs().get(arcId);
-		return new ArcOutAdapter(zero);
+		ArcAdapter adapter = new ArcAdapter(zero);
+		adapter.setInhibitory(true);
+		return adapter;
 	}
 
 	@Override
@@ -63,7 +69,9 @@ public class PetriNetAdapter extends PetriNetInterface {
 			throws UnimplementedCaseException {
 		int arcId = petriNet.createZero(place.getId(), transition.getId());
 		Cleaner cleaner = (Cleaner) petriNet.getArcs().get(arcId);
-		return new ArcOutAdapter(cleaner);
+		ArcAdapter adapter = new ArcAdapter(cleaner);
+		adapter.setReset(true);
+		return adapter;
 	}
 
 	@Override
@@ -80,9 +88,12 @@ public class PetriNetAdapter extends PetriNetInterface {
 	public void removeArc(AbstractArc arc) {
 		int sourceId = arc.getSource().getId();
 		int destId = arc.getDestination().getId();
+		System.out.println("let's remove an arc");
 		if (arc.isSourceAPlace()) {
+			System.out.println("we are going to remove an arcout");
 			petriNet.deleteArc(sourceId, destId);
 		}else {
+			System.out.println("we are going to remove an arcin");
 			petriNet.deleteArc(destId, sourceId);
 		}
 		
