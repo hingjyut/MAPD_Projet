@@ -1,9 +1,12 @@
 package org.pneditor.petrinet.models.binome10;
 
 import java.util.ArrayList;
-import java.util.HashMap; 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.management.RuntimeErrorException;
+import javax.sound.midi.Soundbank;
+
 import org.pneditor.petrinet.models.binome10.Arc;
 import org.pneditor.petrinet.models.binome10.ArcIn;
 import org.pneditor.petrinet.models.binome10.ArcOut;
@@ -39,7 +42,7 @@ public class PetriNet implements IPetriNet{
 	/*
 	 * to store (placeid, transitions'ids)
 	 */
-	private Map<Integer, ArrayList<Integer>> checkArcConflict;
+	private Map<Integer, List<Integer>> checkArcConflict;
 	
 	/**
 	 * constructor
@@ -90,6 +93,11 @@ public class PetriNet implements IPetriNet{
 	 */
 	@Override
 	public void deletePlace(int placeId) {
+		/**
+		 * It will be better if we delete a place like this:
+		 * when we delete a place, we need to delete those arcs who link to this place
+			
+		 */
 		Place place = this.places.get(placeId);
 		// delete place in checkArcConflict
 		if (checkArcConflict.containsKey(placeId)) {
@@ -100,6 +108,7 @@ public class PetriNet implements IPetriNet{
 			deleteArc(arc.getId());
 		}
 		this.places.remove(placeId);
+		System.out.println("Deleted a place which id = "+placeId);this.places.remove(placeId);
 		System.out.println("Deleted a place which id = "+placeId);
 		
 	}
@@ -127,9 +136,10 @@ public class PetriNet implements IPetriNet{
 		
 		/**
 		 * if a transition is going to be deleted, all arcs between 
-		 * this transition and places which linked to this transition 
-		 * will need to be deleted too
+		 * this transition and places will need to be deleted too
+		 *
 		 */
+		
 		Transition transition = this.transitions.get(transitionId);
 		for(Integer arcId: transition.getArcIns().keySet()) {
 			deleteArc(arcId);
@@ -141,6 +151,8 @@ public class PetriNet implements IPetriNet{
 		
 		// delete this transition
 		this.transitions.remove(transitionId);
+		
+//		this.transitions.remove(transitionId);
 		System.out.println("Deleted a transition with id = "+transitionId);
 	}
 	
@@ -196,10 +208,9 @@ public class PetriNet implements IPetriNet{
 		// 1. add this arc to place
 		this.places.get(placeId).addArc(arc);
 		// 2. add this arc to transition
-		if (arc instanceof ArcIn) {
+		if (arc.isArcIn()) {
 			this.transitions.get(transitionId).addArcIns((ArcIn) arc);
 		}else {
-			System.out.println(arc.toString());
 			this.transitions.get(transitionId).addArcOuts((ArcOut) arc);
 		}
 		// 3. add this arc in petrinet
@@ -208,10 +219,9 @@ public class PetriNet implements IPetriNet{
 		if (this.checkArcConflict.containsKey(placeId)) {
 			this.checkArcConflict.get(placeId).add(transitionId);
 		}else {
-			// if the place isn't in arcs list, we create a new transition list for the place, then add it into list
-			ArrayList<Integer> transitionIds = new ArrayList<>();
-			transitionIds.add(transitionId);
-			this.checkArcConflict.put(placeId, transitionIds);
+			List<Integer> tList = new ArrayList<>();
+			tList.add(transitionId);
+			this.checkArcConflict.put(placeId, tList);
 		}
 	}
 	
@@ -326,18 +336,20 @@ public class PetriNet implements IPetriNet{
 		return -1;
 	}
 	
-	@Override
-	public void deleteArc(int sourceId, int destId) {
-		
+//	@Override
+	public void deleteArc(String sourceId, String destId) {
+
 		for(Integer key : this.arcs.keySet()) {
 			System.out.println("arc key value:"+key);
-			if (this.arcs.get(key).getPlace().getId()==sourceId&&this.arcs.get(key).getTransition().getId()==destId) {
+			if (this.arcs.get(key).getPlace().getName().equals(sourceId)&&this.arcs.get(key).getTransition().getName().equals(destId)) {
 				this.deleteArc(key);
 				System.out.println("Deleted an arcout whose id = "+key);
+				return;
 			}
-			if (this.arcs.get(key).getPlace().getId()==destId&&this.arcs.get(key).getTransition().getId()==sourceId) {
+			if (this.arcs.get(key).getPlace().getName().equals(destId)&&this.arcs.get(key).getTransition().getName().equals(sourceId)) {
 				this.deleteArc(key);
 				System.out.println("Deleted an arcin whose id = "+key);
+				return;
 			}
 		}	
 	}
@@ -352,18 +364,20 @@ public class PetriNet implements IPetriNet{
 	 * @param arcId
 	 */
 
-	private void deleteArc(int arcId) {
+	public void deleteArc(int arcId) {
+		System.out.println("delete arc whose id = "+arcId);
 		Arc arc = this.arcs.get(arcId);
-		int placeId = arc.getPlace().getId();
-		int transitionId = arc.getTransition().getId();
+		int pId = arc.getPlace().getId();
+		int tId = arc.getTransition().getId();
 		// 1. delete this arc in place
-		this.places.get(placeId).deletArc(arc);
+		this.places.get(pId).deletArc(arc);
 		// 2. delete this arc in its relevant transition
 		arc.getTransition().deleteArc(arcId);
 		// 3. delete this arc in petrinet
 		this.arcs.remove(arcId);
 		// 4. delete this arc in checkArcConflict
-		this.checkArcConflict.get(placeId).remove(transitionId);
+		int index = this.checkArcConflict.get(pId).indexOf(tId);
+		this.checkArcConflict.get(pId).remove(index);
 	}
 	
 	public Map<Integer, Place> getPlaces() {

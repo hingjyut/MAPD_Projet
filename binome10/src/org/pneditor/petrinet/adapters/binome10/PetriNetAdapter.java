@@ -1,6 +1,5 @@
 package org.pneditor.petrinet.adapters.binome10;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 
 import org.pneditor.petrinet.AbstractArc;
 import org.pneditor.petrinet.AbstractNode;
@@ -12,6 +11,7 @@ import org.pneditor.petrinet.UnimplementedCaseException;
 import org.pneditor.petrinet.models.binome10.Place;
 import org.pneditor.petrinet.models.binome10.Arc;
 import org.pneditor.petrinet.models.binome10.ArcIn;
+import org.pneditor.petrinet.models.binome10.ArcOut;
 import org.pneditor.petrinet.models.binome10.Cleaner;
 import org.pneditor.petrinet.models.binome10.PetriNet;
 import org.pneditor.petrinet.models.binome10.Transition;
@@ -39,14 +39,17 @@ public class PetriNetAdapter extends PetriNetInterface {
 	public AbstractArc addRegularArc(AbstractNode source, AbstractNode destination) throws UnimplementedCaseException {
 		// transition to place, it's arcIn in our case
 		if (!source.isPlace() && destination.isPlace()) {
+			// create an arcin
 			int arcInId = petriNet.createArcIn(source.getId(), destination.getId());
-			Arc arcIn = petriNet.getArcs().get(arcInId);
+			Arc arcIn = (ArcIn) petriNet.getArcs().get(arcInId);
+			// give this arcin to arcadapter
 			ArcAdapter arcAdapter = new ArcAdapter(arcIn);
+			// this arc is a regular arc
 			arcAdapter.setRegular(true);
 			return arcAdapter;
 		}else if (source.isPlace() && !destination.isPlace()) {
 			int arcOutId = petriNet.createArcOut(source.getId(), destination.getId());
-			Arc arcOut = petriNet.getArcs().get(arcOutId);
+			Arc arcOut = (ArcOut) petriNet.getArcs().get(arcOutId);
 			ArcAdapter adapter = new ArcAdapter(arcOut);
 			adapter.setRegular(true);
 			return adapter;
@@ -86,14 +89,13 @@ public class PetriNetAdapter extends PetriNetInterface {
 
 	@Override
 	public void removeArc(AbstractArc arc) {
-		int sourceId = arc.getSource().getId();
-		int destId = arc.getDestination().getId();
-		System.out.println("let's remove an arc");
+		String sourceId = arc.getSource().getLabel();
+		String destId = arc.getDestination().getLabel();
 		if (arc.isSourceAPlace()) {
-			System.out.println("we are going to remove an arcout");
+			System.out.println("we are going to remove an arcout, source label = "+sourceId+", dest label = "+destId);
 			petriNet.deleteArc(sourceId, destId);
 		}else {
-			System.out.println("we are going to remove an arcin");
+			System.out.println("we are going to remove an arcin, source id = "+sourceId+", dest id = "+destId);
 			petriNet.deleteArc(destId, sourceId);
 		}
 		

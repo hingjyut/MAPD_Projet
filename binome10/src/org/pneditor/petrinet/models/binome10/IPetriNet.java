@@ -29,6 +29,6 @@ public interface IPetriNet {
 	
 	public void deleteTransition(int transitionId);
 	
-	public void deleteArc(int sourceId, int destId);
+//	public void deleteArc(int sourceId, int destId);
 
 }

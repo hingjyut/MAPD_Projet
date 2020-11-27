@@ -8,6 +8,8 @@ import org.pneditor.petrinet.models.binome10.ArcOut;
 import org.pneditor.petrinet.models.binome10.Cleaner;
 import org.pneditor.petrinet.models.binome10.Zero;
 
+import com.sun.glass.ui.TouchInputSupport;
+
 public class ArcAdapter extends AbstractArc {
 	
 	
@@ -24,32 +26,44 @@ public class ArcAdapter extends AbstractArc {
 	@Override
 	public AbstractNode getSource() {
 		
-		boolean isArcIn = this.arc.isArcIn();
-		
-		return new AbstractNode(this.arc.getPlace().getName()) {
-			@Override
-			public boolean isPlace() {
-				if (isArcIn) {
-					return false;
+		// if it's an arcin, it's source is a transition, isPlace is false
+		if (this.arc.isArcIn()) {
+			return new AbstractNode(this.arc.getTransition().getName()) {
+				@Override
+				public boolean isPlace() {
+						return false;
 				}
-				return true;
-			}
-		};
+			};
+		}else {
+			return new AbstractNode(this.arc.getPlace().getName()) {
+				@Override
+				public boolean isPlace() {
+						return true;
+				}
+				};
+		}
+		
 	}
 
 	@Override
 	public AbstractNode getDestination() {
-		boolean isArcIn = this.arc.isArcIn();
 		
-		return new AbstractNode(this.arc.getTransition().getName()) {
-			@Override
-			public boolean isPlace() {
-				if (isArcIn) {
+		// if it's an arcin, it's destination is a place, isPlace is true
+		if (this.arc.isArcIn()) {
+			return new AbstractNode(this.arc.getPlace().getName()) {
+				@Override
+				public boolean isPlace() {
 					return true;
 				}
-				return false;
+			};
+		}else {
+			return new AbstractNode(this.arc.getTransition().getName()) {
+				@Override
+				public boolean isPlace() {
+						return false;
+				}
+				};
 			}
-		};
 	}
 
 	@Override
