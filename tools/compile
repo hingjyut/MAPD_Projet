@@ -1,4 +1,0 @@
-#!/bin/bash
-
-javac -d ../bin -sourcepath ../src/mapd ../src/mapd/*/*.java
-#javac -d ../bin -sourcepath ../src ../src/*.java

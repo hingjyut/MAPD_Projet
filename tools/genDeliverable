@@ -1,3 +1,0 @@
-#!/bin/bash
-
-tar -zcvf MAPD_Projet-master.tar.gz ../*
