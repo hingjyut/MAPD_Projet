@@ -14,4 +14,4 @@
 
 Après git clone ou télécharger ce projet dans votre ordi, l'importer en Eclipse, vous pouvez lancer le test par le fichier *Main.java* dans binome10/org.pneditor.editor
 
-Une fois vous voyer PNEditor, veuillez choisir binome10 en "Change model" pour tester notre project
+Une fois vous voyez PNEditor, veuillez choisir binome10 en "Change model" pour tester notre project
